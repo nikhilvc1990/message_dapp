@@ -41,7 +41,7 @@ contract WelcomeDevelopers {
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/sumimaria/MessageDApp.git
+git clone https://github.com/nikhilvc1990/MessageDApp.git
 cd MessageDApp
 
 ``` 
@@ -70,14 +70,18 @@ npx hardhat run scripts/deploy.js --network localhost
 
 ```
 
-After deployment, copy the deployed contract address. You'll use it in the frontend.
+Or
 
-## 🌍 Host Frontend 
-### 1. Navigate to Frontend Folder
 ```bash
-cd frontend
+npx hardhat ignition deploy ./ignition/modules/WelcomeDevelopers.js --network localhost
 
-``` 
+```
+
+After deployment, copy the deployed contract address. You'll use it in the UI (index.html).
+
+## 🌍 Host User Interface 
+### 1. Serve the UI
+Open a new terminal in the root folder (MessageDApp)
 
 ### 2. Set the Contract Address
 Update the contractAddress variable in your index.html file:
@@ -87,7 +91,7 @@ const contractAddress = "YOUR_DEPLOYED_CONTRACT_ADDRESS";
 ```
 
 ### 🔍 To Serve Frontend Locally:
-From the frontend/ folder:
+From the root folder:
 ```bash
 npx serve .
 
@@ -104,9 +108,6 @@ Click Deploy
 Your frontend will be live on a Vercel URL.
 
 ## 💡 Requirements
-MetaMask extension installed in your browser: make sure the hardhat accounts are imported in your metamask to interact with hardhat instance
-
-Node.js and npm
-
-Vercel account (free)
-
+1. MetaMask extension installed in your browser: make sure the hardhat accounts are imported in your metamask to interact with hardhat instance
+2. Node.js and npm
+3. Vercel account (free)

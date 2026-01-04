@@ -27,7 +27,7 @@
     const messageDisplay = document.getElementById("messageDisplay");
     const statusMsg = document.getElementById("statusMsg");
 
-    const contractAddress = "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0";
+    const contractAddress = "0xF260dab2c2fF6fACC383884ee93a599B65a9F525";
     const contractABI = [
       "function getMessage() view returns (string)",
       "function setMessage(string memory) public"
@@ -35,13 +35,32 @@
 
     let provider, signer, contract;
 
+    // Auto-refresh on MetaMask account or network changes
+    if (typeof window.ethereum !== "undefined") {
+      window.ethereum.on("accountsChanged", (accounts) => {
+        console.log("Accounts changed:", accounts);
+        window.location.reload();
+      });
+      window.ethereum.on("chainChanged", (chainId) => {
+        console.log("Network changed:", chainId);
+        window.location.reload();
+      });
+      window.ethereum.on("disconnect", (error) => {
+        console.log("Disconnected:", error);
+        window.location.reload();
+      });
+    }
+
     connectBtn.onclick = async () => {
       if (typeof window.ethereum !== "undefined") {
         try {
           await window.ethereum.request({ method: "eth_requestAccounts" });
           provider = new ethers.BrowserProvider(window.ethereum);
           signer = await provider.getSigner();
+          const { name, chainId } = await provider.getNetwork();
+          console.log(`Connected network: ${name} (chainId: ${chainId})`);
           contract = new ethers.Contract(contractAddress, contractABI, signer);
+          console.log("Connected to MetaMask: ", await signer.getAddress());
           alert("Connected to MetaMask!");
         } catch (err) {
           console.error("MetaMask access denied", err);
